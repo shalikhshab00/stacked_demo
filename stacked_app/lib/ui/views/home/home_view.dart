@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_app/ui/common/app_colors.dart';
-import 'package:stacked_app/ui/common/ui_helpers.dart';
 import 'home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
   HomeView({Key? key}) : super(key: key);
 
-  TextEditingController name = TextEditingController();
-  TextEditingController location = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget builder(
@@ -18,28 +14,63 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Stacked App')
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          padding: const EdgeInsets.all(30),
           child: Center(
-            
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
-                TextFormField(
-                  decoration: InputDecoration(hintText: 'Enter your name'),
-                  controller: name,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: 'Enter your location'),
-                  controller: location,
-                ),
-                SizedBox(height: 15),
-                ElevatedButton(onPressed: () {
-                  
-                }, child: Text('Submit'))
-              ],
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              hintText: 'Enter your name',
+                              border: OutlineInputBorder()),
+                          controller: viewModel.name,
+                          
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              hintText: 'Enter your location',
+                              border: OutlineInputBorder()),
+                          controller: viewModel.location,
+                          
+                          
+                        ),
+                        SizedBox(height: 15),
+                        ElevatedButton(
+                            onPressed: () {
+                              showDialog(context: context, builder: (BuildContext context) {
+                                return AlertDialog();
+                              });
+                            },
+                            style: ButtonStyle(
+                                fixedSize:
+                                    MaterialStatePropertyAll(Size(80, 35))),
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
+                            ))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
