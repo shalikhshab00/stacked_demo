@@ -14,9 +14,7 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Stacked App')
-      ),
+      appBar: AppBar(title: Text('Stacked App')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30),
@@ -36,7 +34,6 @@ class HomeView extends StackedView<HomeViewModel> {
                               hintText: 'Enter your name',
                               border: OutlineInputBorder()),
                           controller: viewModel.name,
-                          
                         ),
                         SizedBox(
                           height: 10,
@@ -46,16 +43,10 @@ class HomeView extends StackedView<HomeViewModel> {
                               hintText: 'Enter your location',
                               border: OutlineInputBorder()),
                           controller: viewModel.location,
-                          
-                          
                         ),
                         SizedBox(height: 15),
                         ElevatedButton(
-                            onPressed: () {
-                              showDialog(context: context, builder: (BuildContext context) {
-                                return AlertDialog();
-                              });
-                            },
+                            onPressed: showLoadingDialog,
                             style: ButtonStyle(
                                 fixedSize:
                                     MaterialStatePropertyAll(Size(80, 35))),
@@ -65,7 +56,16 @@ class HomeView extends StackedView<HomeViewModel> {
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
-                            ))
+                            )),
+                            SizedBox(height: 10),
+
+                            ElevatedButton(onPressed: () {
+                              
+                            }, child: Text('Show Dialog')),
+                        Image.asset(
+                            height: 300,
+                            width: 300,
+                            "assets/images/flutter1.png")
                       ],
                     ),
                   ),
