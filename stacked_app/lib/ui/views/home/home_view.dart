@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_app/ui/common/app_colors.dart';
-import 'package:stacked_app/ui/common/ui_helpers.dart';
 import 'home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
-  HomeView({Key? key}) : super(key: key);
-
-  TextEditingController name = TextEditingController();
-  TextEditingController location = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget builder(
@@ -21,27 +15,15 @@ class HomeView extends StackedView<HomeViewModel> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Center(
-            
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
-                TextFormField(
-                  decoration: InputDecoration(hintText: 'Enter your name'),
-                  controller: name,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: 'Enter your location'),
-                  controller: location,
-                ),
-                SizedBox(height: 15),
-                ElevatedButton(onPressed: () {
-                  
-                }, child: Text('Submit'))
-              ],
-            ),
-          ),
+          child: Center(child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth > 600) {
+                return tabletView(viewModel: viewModel);
+              } else {
+                return mobileView(viewModel: viewModel);
+              }
+            },
+          )),
         ),
       ),
     );
@@ -52,4 +34,96 @@ class HomeView extends StackedView<HomeViewModel> {
     BuildContext context,
   ) =>
       HomeViewModel();
+}
+
+Widget mobileView({required HomeViewModel viewModel}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const SizedBox(height: 10),
+      TextFormField(
+        decoration: const InputDecoration(hintText: 'Enter your name'),
+        controller: viewModel.name,
+      ),
+      TextFormField(
+        decoration: const InputDecoration(hintText: 'Enter your location'),
+        controller: viewModel.location,
+      ),
+      const SizedBox(height: 10),
+      ElevatedButton(
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(viewModel.buttonColor)),
+        onPressed: () {
+          viewModel.onSubmit();
+          // viewModel.notifyListeners();
+        },
+        child: const Text('Submit'),
+      ),
+      // const Spacer(),
+      const Card(
+          borderOnForeground: true,
+          shadowColor: Colors.black,
+          elevation: 1.0,
+          color: Colors.red,
+          child: SizedBox(
+            height: 250,
+            width: 250,
+            child: ColoredBox(color: Colors.yellow),
+          )),
+    ],
+  );
+}
+
+Widget tabletView({required HomeViewModel viewModel}) {
+  return Row(
+    children: [
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            TextFormField(
+              decoration: const InputDecoration(hintText: 'Enter your name'),
+              controller: viewModel.name,
+            ),
+            TextFormField(
+              decoration:
+                  const InputDecoration(hintText: 'Enter your location'),
+              controller: viewModel.location,
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(viewModel.buttonColor)),
+              onPressed: () {
+                viewModel.onSubmit();
+                // viewModel.notifyListeners();
+              },
+              child: const Text('Submit'),
+            ),
+            // const Spacer(),
+          ],
+        ),
+      ),
+      const Spacer(),
+      const Expanded(
+        child: Column(
+          children: [
+            Card(
+                borderOnForeground: true,
+                shadowColor: Colors.black,
+                elevation: 1.0,
+                color: Colors.red,
+                child: SizedBox(
+                  height: 250,
+                  width: 250,
+                  child: ColoredBox(color: Colors.yellow),
+                )),
+          ],
+        ),
+      )
+    ],
+  );
 }
