@@ -12,19 +12,23 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      appBar: AppBar(title: Text('Stacked App')),
+      appBar: AppBar(title: const Text('Stacked App')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Center(child: LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth > 600) {
-                return tabletView(viewModel: viewModel);
-              } else {
-                return mobileView(viewModel: viewModel);
-              }
-            },
-          )),
+          child: Center(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth > 600) {
+                  return tabletView(
+                      viewModel: viewModel, constraints: constraints);
+                } else {
+                  return mobileView(
+                      viewModel: viewModel, constraints: constraints);
+                }
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -37,7 +41,8 @@ class HomeView extends StackedView<HomeViewModel> {
       HomeViewModel();
 }
 
-Widget mobileView({required HomeViewModel viewModel}) {
+Widget mobileView(
+    {required HomeViewModel viewModel, required BoxConstraints constraints}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -76,7 +81,8 @@ Widget mobileView({required HomeViewModel viewModel}) {
   );
 }
 
-Widget tabletView({required HomeViewModel viewModel}) {
+Widget tabletView(
+    {required HomeViewModel viewModel, required BoxConstraints constraints}) {
   return Row(
     children: [
       Expanded(
@@ -108,7 +114,7 @@ Widget tabletView({required HomeViewModel viewModel}) {
           ],
         ),
       ),
-      const Spacer(),
+      // const Spacer(),
       const Expanded(
         child: Column(
           children: [
@@ -118,7 +124,7 @@ Widget tabletView({required HomeViewModel viewModel}) {
                 elevation: 1.0,
                 color: Colors.red,
                 child: SizedBox(
-                  height: 250,
+                  height: 100,
                   width: 250,
                   child: ColoredBox(color: Colors.yellow),
                 )),

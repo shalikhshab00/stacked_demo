@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CommonDialogServices {
   static Future<void> showLoadingDialog(
       {required BuildContext context, String? title}) {
-    String _title = title ?? 'Loading...';
+    String title0 = title ?? 'Loading...';
     return showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -35,7 +35,7 @@ class CommonDialogServices {
                   const SizedBox(
                     width: 20,
                   ),
-                  Text(_title),
+                  Text(title0),
                 ],
               ),
             ),
